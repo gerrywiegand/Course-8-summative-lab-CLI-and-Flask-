@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 from flask import Flask  # noqa: I001
-from flask import request, jsonify  # noqa: F401
-from .inventory.data import URL  # noqa: F401
-from .inventory.models import InventoryItem  # noqa: F401
-from .inventory.services import InventoryManager  # noqa: F401
+from flask import request
+from inventory.services import InventoryManager  # noqa: F401
+from inventory.models import Item  # noqa: F401
+from inventory.utils import fetch_inventory_data  # noqa: F401
 
 
 app = Flask(__name__)
@@ -14,7 +14,7 @@ Inventory = InventoryManager()
 
 @app.route("/")
 def index():
-    return "Welcome to the Open Food Facts App!"
+    return "Welcome to your inventory management app!"
 
 
 @app.route("/data", methods=["GET"])
@@ -33,7 +33,7 @@ def get_by_id(item_id):
 
 
 @app.route("/data", methods=["POST"])
-def add_item():
+def add_item_to_inventory():
     data = request.get_json()
     name = data.get("name")
     barcode = data.get("barcode")
@@ -42,7 +42,18 @@ def add_item():
     if None in ([name, barcode, price, stock]):
         return {"error": "Missing required fields"}, 400
     item = Inventory.add_item(name, barcode, price, stock)
-    return {"data": item.to_dict()}, 201
+    try:
+        item_data = fetch_inventory_data(barcode)
+        if not item_data:
+            raise ValueError("No data found for the given barcode")
+        item.brand = item_data.get("brands")
+        item.ingredients = item_data.get("ingredients")
+        item.categories = item_data.get("categories")
+
+        return {"data": item.to_dict()}, 201
+
+    except ValueError as e:
+        return {"data": item.to_dict(), "warning": str(e)}, 201
 
 
 @app.route("/data/<int:item_id>", methods=["PATCH"])
