@@ -11,3 +11,16 @@ class Item:
         self.price = price
         self.stock = stock
         self.categories = categories
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "barcode": self.barcode,
+            "brand": self.brand,
+            "quantity": self.quantity,
+            "ingredients": self.ingredients,
+            "price": self.price,
+            "stock": self.stock,
+            "categories": self.categories,
+        }
