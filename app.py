@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from flask import Flask
 
-from lib.data import data
+from .app import inventory
 
 app = Flask(__name__)
 
@@ -18,7 +18,7 @@ def index():
 
 @app.route("/data", methods=["GET"])
 def get_data():
-    return data, 200
+    return inventory, 200
 
 
 @app.route("/data/<int:item_id>", methods=["GET"])
