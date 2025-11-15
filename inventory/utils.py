@@ -1,5 +1,6 @@
 import requests
-from data import URL
+
+from .data import URL
 
 
 def fetch_inventory_data(barcode: str):

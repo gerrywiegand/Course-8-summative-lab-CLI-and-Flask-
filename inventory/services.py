@@ -11,18 +11,26 @@ class InventoryManager:
                 return item
         return None
 
-    def add_item(self, name, barcode, price, stock):
+    def add_item(
+        self,
+        name,
+        barcode,
+        price,
+        stock,
+        brand=None,
+        ingredients=None,
+        categories=None,
+    ):
         item_id = max([item.id for item in self.inventory], default=0) + 1
         item = Item(
             id=item_id,
             name=name,
             barcode=barcode,
-            brand=None,
-            quantity=None,
-            ingredients=None,
+            brand=brand,
+            ingredients=ingredients,
             price=price,
             stock=stock,
-            categories=None,
+            categories=categories,
         )
         self.inventory.append(item)
         return item
