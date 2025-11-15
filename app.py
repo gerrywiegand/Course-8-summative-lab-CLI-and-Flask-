@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 from flask import Flask  # noqa: I001
-from flask import request, jsonify  # noqa: F401
-from .inventory.data import URL  # noqa: F401
-from .inventory.models import InventoryItem  # noqa: F401
-from .inventory.services import InventoryManager  # noqa: F401
+from flask import request
+from inventory.services import InventoryManager  # noqa: F401
+from inventory.models import Item  # noqa: F401
 
 
 app = Flask(__name__)

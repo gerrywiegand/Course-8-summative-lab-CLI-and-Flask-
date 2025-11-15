@@ -1,4 +1,4 @@
-from models import Item  # noqa: F401
+from inventory.models import Item
 
 
 class InventoryManager:
