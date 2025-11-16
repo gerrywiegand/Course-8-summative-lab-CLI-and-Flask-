@@ -103,7 +103,6 @@ def update_item_cli():
     print("\nLeave fields blank to keep existing values.\n")
 
     name = input("New name: ").strip()
-    barcode = input("New barcode: ").strip()
     price_str = input("New price: ").strip()
     stock_str = input("New stock quantity: ").strip()
 
@@ -112,9 +111,6 @@ def update_item_cli():
 
     if name:
         payload["name"] = name
-
-    if barcode:
-        payload["barcode"] = barcode
 
     if price_str:
         try:
@@ -258,6 +254,7 @@ def menu():
     print("3. Add new item")
     print("4. Update item")
     print("5. Delete item")
+    print("6. Add item from OpenFoodFacts (by barcode)")
     print("0. Exit")
 
 
